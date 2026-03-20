@@ -1,4 +1,4 @@
-import { analyzeTrends }  from '../analyzer/trend-analyzer';
+import { analyzeTrends }  from '../analyzer/trendAnalyzer';
 import { predictWithGemini } from '../ai/geminiPredictor';
 import { computeFinalScores } from '../analyzer/riskScorer';
 import { buildExecutionPlan } from '../prioritizer/reorderSuite';

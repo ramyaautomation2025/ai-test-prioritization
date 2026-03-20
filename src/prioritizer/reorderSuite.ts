@@ -124,7 +124,7 @@ export function buildExecutionPlan(
 // Run directly if called as script
 if (require.main === module) {
   (async () => {
-    const { analyzeTrends } = await import('../analyzer/trend-analyzer');
+    const { analyzeTrends } = await import('../analyzer/trendAnalyzer');
     const { predictWithGemini } = await import('../ai/geminiPredictor');
     const { computeFinalScores } = await import('../analyzer/riskScorer');
 

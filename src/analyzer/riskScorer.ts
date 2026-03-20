@@ -1,4 +1,4 @@
-import { TestTrend } from './trend-analyzer';
+import { TestTrend } from './trendAnalyzer';
 import { AIPrediction } from '../ai/geminiPredictor';
 
 /**
