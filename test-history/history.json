@@ -1,0 +1,184 @@
+{
+  "builds": [
+    {
+      "buildId": "build-001",
+      "timestamp": "2026-02-01T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 1800, "module": "login", "errorMessage": "Element not found: #login-button" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 900, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1200, "module": "login", "errorMessage": "Timeout waiting for error message" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "failed", "duration": 3200, "module": "checkout", "errorMessage": "Payment step timeout" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "passed", "duration": 1500, "module": "checkout", "errorMessage": "" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1100, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 980, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 800, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 850, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "failed", "duration": 1400, "module": "search", "errorMessage": "Sort order mismatch" },
+        { "testName": "profile.spec.ts > view profile", "status": "passed", "duration": 1000, "module": "profile", "errorMessage": "" },
+        { "testName": "payment.spec.ts > payment summary", "status": "passed", "duration": 2100, "module": "payment", "errorMessage": "" }
+      ]
+    },
+    {
+      "buildId": "build-002",
+      "timestamp": "2026-02-05T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 1900, "module": "login", "errorMessage": "Login button unresponsive" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 870, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "passed", "duration": 950, "module": "login", "errorMessage": "" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "passed", "duration": 2900, "module": "checkout", "errorMessage": "" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "failed", "duration": 1700, "module": "checkout", "errorMessage": "Form field not interactable" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1050, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 990, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 780, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 820, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "passed", "duration": 1300, "module": "search", "errorMessage": "" },
+        { "testName": "profile.spec.ts > view profile", "status": "passed", "duration": 1100, "module": "profile", "errorMessage": "" },
+        { "testName": "payment.spec.ts > payment summary", "status": "failed", "duration": 2400, "module": "payment", "errorMessage": "Price calculation mismatch" }
+      ]
+    },
+    {
+      "buildId": "build-003",
+      "timestamp": "2026-02-09T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "passed", "duration": 1600, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > invalid login", "status": "failed", "duration": 1100, "module": "login", "errorMessage": "Error message not displayed" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1300, "module": "login", "errorMessage": "Redirect failed" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "failed", "duration": 3100, "module": "checkout", "errorMessage": "Order confirmation missing" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "passed", "duration": 1450, "module": "checkout", "errorMessage": "" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1080, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "failed", "duration": 1200, "module": "cart", "errorMessage": "Cart count not updated" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 790, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 830, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "failed", "duration": 1500, "module": "search", "errorMessage": "Incorrect sort order" },
+        { "testName": "profile.spec.ts > view profile", "status": "passed", "duration": 1050, "module": "profile", "errorMessage": "" },
+        { "testName": "payment.spec.ts > payment summary", "status": "passed", "duration": 2000, "module": "payment", "errorMessage": "" }
+      ]
+    },
+    {
+      "buildId": "build-004",
+      "timestamp": "2026-02-13T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 2000, "module": "login", "errorMessage": "Session not created" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 890, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1250, "module": "login", "errorMessage": "Expected error not shown" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "passed", "duration": 2800, "module": "checkout", "errorMessage": "" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "passed", "duration": 1400, "module": "checkout", "errorMessage": "" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1020, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 970, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 760, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 810, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "passed", "duration": 1250, "module": "search", "errorMessage": "" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1300, "module": "profile", "errorMessage": "Profile page timeout" },
+        { "testName": "payment.spec.ts > payment summary", "status": "failed", "duration": 2500, "module": "payment", "errorMessage": "Subtotal incorrect" }
+      ]
+    },
+    {
+      "buildId": "build-005",
+      "timestamp": "2026-02-17T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 1850, "module": "login", "errorMessage": "Login timeout" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 860, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "passed", "duration": 930, "module": "login", "errorMessage": "" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "failed", "duration": 3300, "module": "checkout", "errorMessage": "Checkout button disabled" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "failed", "duration": 1800, "module": "checkout", "errorMessage": "ZIP code field missing" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1060, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 950, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 770, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 800, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "failed", "duration": 1450, "module": "search", "errorMessage": "Sort dropdown unresponsive" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1400, "module": "profile", "errorMessage": "Profile data not loaded" },
+        { "testName": "payment.spec.ts > payment summary", "status": "passed", "duration": 2100, "module": "payment", "errorMessage": "" }
+      ]
+    },
+    {
+      "buildId": "build-006",
+      "timestamp": "2026-02-21T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "passed", "duration": 1550, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 880, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1350, "module": "login", "errorMessage": "Lock message missing" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "passed", "duration": 2700, "module": "checkout", "errorMessage": "" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "passed", "duration": 1380, "module": "checkout", "errorMessage": "" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1040, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 960, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 750, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 790, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "passed", "duration": 1200, "module": "search", "errorMessage": "" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1500, "module": "profile", "errorMessage": "API response delayed" },
+        { "testName": "payment.spec.ts > payment summary", "status": "failed", "duration": 2600, "module": "payment", "errorMessage": "Tax amount wrong" }
+      ]
+    },
+    {
+      "buildId": "build-007",
+      "timestamp": "2026-02-25T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 1950, "module": "login", "errorMessage": "Cookie not set" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 910, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1280, "module": "login", "errorMessage": "Unexpected redirect" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "failed", "duration": 3400, "module": "checkout", "errorMessage": "Final step not reached" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "passed", "duration": 1420, "module": "checkout", "errorMessage": "" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1070, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "failed", "duration": 1150, "module": "cart", "errorMessage": "Item still in cart after remove" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 780, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 820, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "failed", "duration": 1480, "module": "search", "errorMessage": "Price list not sorted" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1600, "module": "profile", "errorMessage": "Username missing on profile" },
+        { "testName": "payment.spec.ts > payment summary", "status": "passed", "duration": 2050, "module": "payment", "errorMessage": "" }
+      ]
+    },
+    {
+      "buildId": "build-008",
+      "timestamp": "2026-03-01T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 2050, "module": "login", "errorMessage": "Page not redirected after login" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 870, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1320, "module": "login", "errorMessage": "Error banner not visible" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "passed", "duration": 2850, "module": "checkout", "errorMessage": "" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "failed", "duration": 1750, "module": "checkout", "errorMessage": "Last name field missing" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1090, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 975, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 760, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 800, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "passed", "duration": 1220, "module": "search", "errorMessage": "" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1700, "module": "profile", "errorMessage": "Profile image broken" },
+        { "testName": "payment.spec.ts > payment summary", "status": "failed", "duration": 2700, "module": "payment", "errorMessage": "Discount not applied" }
+      ]
+    },
+    {
+      "buildId": "build-009",
+      "timestamp": "2026-03-08T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 2100, "module": "login", "errorMessage": "Dashboard not loaded" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 895, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1290, "module": "login", "errorMessage": "Wrong error message text" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "failed", "duration": 3500, "module": "checkout", "errorMessage": "Network error on submit" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "passed", "duration": 1430, "module": "checkout", "errorMessage": "" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1100, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 985, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 770, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 810, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "failed", "duration": 1460, "module": "search", "errorMessage": "Items not reordered" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1800, "module": "profile", "errorMessage": "500 error on profile load" },
+        { "testName": "payment.spec.ts > payment summary", "status": "failed", "duration": 2800, "module": "payment", "errorMessage": "Total amount mismatch" }
+      ]
+    },
+    {
+      "buildId": "build-010",
+      "timestamp": "2026-03-15T10:00:00Z",
+      "results": [
+        { "testName": "login.spec.ts > valid login", "status": "failed", "duration": 2200, "module": "login", "errorMessage": "Blank screen after login" },
+        { "testName": "login.spec.ts > invalid login", "status": "passed", "duration": 900, "module": "login", "errorMessage": "" },
+        { "testName": "login.spec.ts > locked out user", "status": "failed", "duration": 1350, "module": "login", "errorMessage": "App crashed on locked user" },
+        { "testName": "checkout.spec.ts > complete checkout", "status": "failed", "duration": 3600, "module": "checkout", "errorMessage": "Checkout completely broken" },
+        { "testName": "checkout.spec.ts > checkout step one", "status": "failed", "duration": 1900, "module": "checkout", "errorMessage": "Step one form not loading" },
+        { "testName": "cart.spec.ts > add to cart", "status": "passed", "duration": 1110, "module": "cart", "errorMessage": "" },
+        { "testName": "cart.spec.ts > remove from cart", "status": "passed", "duration": 990, "module": "cart", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > page loads", "status": "passed", "duration": 750, "module": "homepage", "errorMessage": "" },
+        { "testName": "homepage.spec.ts > product listing", "status": "passed", "duration": 800, "module": "homepage", "errorMessage": "" },
+        { "testName": "search.spec.ts > sort by price", "status": "failed", "duration": 1500, "module": "search", "errorMessage": "Sort completely broken" },
+        { "testName": "profile.spec.ts > view profile", "status": "failed", "duration": 1900, "module": "profile", "errorMessage": "Profile module crashed" },
+        { "testName": "payment.spec.ts > payment summary", "status": "failed", "duration": 2900, "module": "payment", "errorMessage": "Payment page not rendering" }
+      ]
+    }
+  ]
+}

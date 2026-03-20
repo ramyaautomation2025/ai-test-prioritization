@@ -1,0 +1,78 @@
+name: AI Smart Test Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  smart-test-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Create results directory
+        run: mkdir -p test-results/screenshots reports
+
+      - name: Step 1 — Analyze CI trends
+        run: npm run analyze
+
+      - name: Step 2 — AI Risk Prediction
+        run: npm run predict
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Step 3 — Build execution plan
+        run: npm run prioritize
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Step 4 — Generate risk dashboard
+        run: npm run dashboard
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BUILD_NUMBER: ${{ github.run_number }}
+
+      - name: Step 5 — Run Group A (Critical tests first)
+        run: npx playwright test --grep @critical --reporter=list
+        continue-on-error: true
+
+      - name: Step 6 — Run Group B (Regression tests)
+        run: npx playwright test --grep @regression --reporter=list
+        continue-on-error: true
+
+      - name: Step 7 — Run Group C (Smoke tests)
+        run: npx playwright test --grep @smoke --reporter=list
+        continue-on-error: true
+
+      - name: Upload risk dashboard
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ai-risk-dashboard
+          path: reports/priority-dashboard.html
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-results
+          path: |
+            playwright-report/
+            test-results/

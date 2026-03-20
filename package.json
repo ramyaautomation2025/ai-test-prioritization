@@ -1,0 +1,27 @@
+{
+  "name": "ai-test-prioritization",
+  "version": "1.0.0",
+  "description": "AI-Driven Defect Prediction & Smart Test Prioritization using Claude AI + Playwright",
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:critical": "playwright test --grep @critical",
+    "test:regression": "playwright test --grep @regression",
+    "analyze": "ts-node src/analyzer/trendAnalyzer.ts",
+    "predict": "ts-node src/ai/claudePredictor.ts",
+    "prioritize": "ts-node src/prioritizer/reorderSuite.ts",
+    "dashboard": "ts-node src/reporter/dashboardGenerator.ts",
+    "smart-run": "ts-node src/runner/smartRunner.ts",
+    "update-history": "ts-node src/analyzer/updateHistory.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "dependencies": {
+    "anthropic": "^0.20.0",
+    "dotenv": "^16.0.0"
+  }
+}
