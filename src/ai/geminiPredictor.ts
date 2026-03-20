@@ -55,6 +55,7 @@ function ruleBasedScore(trend: TestTrend): AIPrediction {
 export async function predictWithGemini(
   trends: TestTrend[]
 ): Promise<AIPrediction[]> {
+
   const apiKey = process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
@@ -66,7 +67,7 @@ export async function predictWithGemini(
 
   console.log(`[${new Date().toISOString()}] 🤖 Calling Gemini AI for risk prediction...`);
 
-  // Prepare a clean summary for the prompt (avoid sending too much data)
+  // Clean summary to send to Gemini
   const trendSummary = trends.map((t) => ({
     testName: t.testName,
     module: t.module,
@@ -87,22 +88,22 @@ Trend Data:
 ${JSON.stringify(trendSummary, null, 2)}
 
 Rules for scoring:
-- High failureRate (>0.6) = high risk
-- Worsening recent trend = higher risk
-- Flaky tests = medium-high risk
-- Recovery pattern (fixed then broke again) = high risk
-- Last status failed = higher risk
-- Stable passing tests = low risk
+- High failureRate above 0.6 means high risk
+- Worsening recent trend means higher risk
+- Flaky tests mean medium to high risk
+- Recovery pattern which means fixed then broke again means high risk
+- Last status failed means higher risk
+- Stable passing tests mean low risk
 
 For each test assign:
-- riskScore: 0 to 100 (100 = almost certain to fail)
+- riskScore: 0 to 100 where 100 means almost certain to fail
 - riskLevel: exactly one of: critical, high, medium, low
 - reason: one clear sentence explaining the score
 - recommendation: exactly one of: run-first, run-early, run-normal, deprioritize
 
-Return ONLY a valid JSON array. 
+Return ONLY a valid JSON array.
 No explanation. No markdown. No code blocks. No extra text.
-Start your response with [ and end with ]
+Start your response directly with [ and end with ]
 
 Format:
 [
@@ -116,13 +117,23 @@ Format:
 ]`;
 
   try {
+
+    // ✅ FIX 1: API key in HEADER not URL query param
+    // ✅ FIX 2: Use gemini-2.0-flash model
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey,          // ← KEY FIX: header not URL
+        },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
+          contents: [
+            {
+              parts: [{ text: prompt }],
+            },
+          ],
           generationConfig: {
             temperature: 0.2,
             maxOutputTokens: 2000,
@@ -131,16 +142,27 @@ Format:
       }
     );
 
+    // Log full error body for debugging
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status} ${response.statusText}`);
+      const errorBody = await response.json();
+      console.error(
+        `[${new Date().toISOString()}] ❌ Gemini error details:`,
+        JSON.stringify(errorBody, null, 2)
+      );
+      throw new Error(
+        `Gemini API error: ${response.status} ${response.statusText}`
+      );
     }
 
     const data = await response.json();
-    const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const rawText =
+      data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-    console.log(`[${new Date().toISOString()}] ✅ Gemini responded successfully`);
+    console.log(
+      `[${new Date().toISOString()}] ✅ Gemini responded successfully`
+    );
 
-    // Clean response — remove any accidental markdown
+    // Clean any accidental markdown fences
     const cleaned = rawText
       .replace(/```json/g, '')
       .replace(/```/g, '')
@@ -148,11 +170,11 @@ Format:
 
     const predictions: AIPrediction[] = JSON.parse(cleaned);
 
-    // Validate we got predictions for all tests
+    // Fill any missing tests with rule-based fallback
     if (predictions.length !== trends.length) {
-      console.warn(`[${new Date().toISOString()}] ⚠️  Gemini returned ${predictions.length} predictions for ${trends.length} tests. Filling gaps with rule-based.`);
-
-      // Fill any missing tests with rule-based scores
+      console.warn(
+        `[${new Date().toISOString()}] ⚠️  Gemini returned ${predictions.length} predictions for ${trends.length} tests. Filling gaps.`
+      );
       const predictedNames = predictions.map((p) => p.testName);
       for (const trend of trends) {
         if (!predictedNames.includes(trend.testName)) {
@@ -183,8 +205,8 @@ if (require.main === module) {
     for (const p of predictions) {
       const icon =
         p.riskLevel === 'critical' ? '🔴' :
-        p.riskLevel === 'high' ? '🟠' :
-        p.riskLevel === 'medium' ? '🟡' : '🟢';
+        p.riskLevel === 'high'     ? '🟠' :
+        p.riskLevel === 'medium'   ? '🟡' : '🟢';
       console.log(`${icon} [${p.riskScore}] ${p.testName}`);
       console.log(`   → ${p.reason}`);
       console.log(`   → Recommendation: ${p.recommendation}\n`);
