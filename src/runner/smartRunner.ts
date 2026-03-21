@@ -22,6 +22,7 @@ interface PlaywrightTestResult {
   status      : 'passed' | 'failed';
   duration    : number;
   errorMessage: string;
+   retryCount  : number;
 }
 
 interface SmartRunSummary {
@@ -158,16 +159,27 @@ function extractFromSuites(
       .replace('.spec.ts', '');
 
     for (const spec of suite.specs || []) {
-      const test   = spec.tests?.[0];
-      const runRes = test?.results?.[0];
-      if (!runRes) continue;
+      const test = spec.tests?.[0];
+      if (!test) continue;
+
+      // All attempts including retries
+      const allAttempts  = test.results || [];
+      const totalAttempts = allAttempts.length;
+
+      // Final result is the last attempt
+      const finalAttempt = allAttempts[totalAttempts - 1];
+      if (!finalAttempt) continue;
+
+      // retryCount = attempts beyond the first
+      const retryCount = Math.max(0, totalAttempts - 1);
 
       results.push({
         testName    : `${fileName.replace('tests/', '')} > ${spec.title}`,
         module      : moduleName,
-        status      : runRes.status === 'passed' ? 'passed' : 'failed',
-        duration    : runRes.duration || 0,
-        errorMessage: runRes.error?.message?.slice(0, 150) || '',
+        status      : finalAttempt.status === 'passed' ? 'passed' : 'failed',
+        duration    : finalAttempt.duration || 0,
+        errorMessage: finalAttempt.error?.message?.slice(0, 150) || '',
+        retryCount,   // ← ADD THIS
       });
     }
 
@@ -191,7 +203,9 @@ function readGroupResultsFromFile(
   const fullPath = path.join(process.cwd(), outputFile);
 
   if (!fs.existsSync(fullPath)) {
-    console.warn(`[${new Date().toISOString()}] ⚠️  Cannot read ${outputFile} — file missing`);
+    console.warn(
+      `[${new Date().toISOString()}] ⚠️  Cannot read ${outputFile} — file missing`
+    );
     return [];
   }
 
@@ -204,11 +218,29 @@ function readGroupResultsFromFile(
     }
 
     const results = extractFromSuites(data.suites || []);
-    console.log(`[${new Date().toISOString()}] 📖 Read ${results.length} results from ${outputFile}`);
+
+    // Log any retried tests found
+    const retried = results.filter((r) => r.retryCount > 0);
+    if (retried.length > 0) {
+      console.log(
+        `[${new Date().toISOString()}] 🔄 ${retried.length} retried test(s) in ${outputFile}:`
+      );
+      retried.forEach((r) =>
+        console.log(
+          `   → ${r.testName} (retries: ${r.retryCount}, final: ${r.status})`
+        )
+      );
+    }
+
+    console.log(
+      `[${new Date().toISOString()}] 📖 Read ${results.length} results from ${outputFile}`
+    );
     return results;
 
   } catch (error) {
-    console.error(`[${new Date().toISOString()}] ❌ Failed to read ${outputFile}: ${error}`);
+    console.error(
+      `[${new Date().toISOString()}] ❌ Failed to read ${outputFile}: ${error}`
+    );
     return [];
   }
 }
@@ -651,7 +683,7 @@ if (summary.dbConnected && testResults.length > 0) {
 }
 
 if (testResults.length > 0) {
-  updateHistoryJson(buildId, testResults, true);
+  updateHistoryJson(buildId, testResults, summary.dbConnected);
 }
   // ── STEP 11: Retention Policy ─────────────────────────────────────
   printStep(11, '🧹 Applying Database Retention Policy');
