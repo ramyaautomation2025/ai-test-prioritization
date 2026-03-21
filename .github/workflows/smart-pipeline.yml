@@ -61,6 +61,26 @@ jobs:
         run: npx playwright test --grep @smoke --reporter=list
         continue-on-error: true
 
+      - name: 💾 Save test results to PostgreSQL
+        run: npx ts-node src/database/historyWriter.ts
+        if: always()
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          BUILD_NUMBER: ${{ github.run_number }}
+
+      - name: 🧹 Apply database retention policy
+        run: |
+          npx ts-node -e "
+          import { applyRetentionPolicy, showStorageStats } from './src/database/historyWriter';
+          (async () => {
+            await applyRetentionPolicy(10, 90);
+            await showStorageStats();
+          })();
+          "
+        if: always()
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Upload risk dashboard
         uses: actions/upload-artifact@v4
         if: always()

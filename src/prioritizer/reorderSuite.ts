@@ -9,6 +9,7 @@ export interface PrioritizedTest {
   priority: number;
   testFile: string;
   testName: string;
+  grepPattern: string;
   riskScore: number;
   riskLevel: 'critical' | 'high' | 'medium' | 'low';
   recommendation: string;
@@ -38,6 +39,31 @@ function extractTestFile(testName: string): string {
 }
 
 /**
+ * Extracts clean grep pattern from full test name
+ * Input : "login.spec.ts > valid login with standard user @smoke @critical"
+ * Output: "valid login with standard user"
+ * 
+ * We strip the file prefix and tags so grep matches exactly one test
+ */
+/**
+ * Extracts clean grep pattern from full test name
+ *
+ * Input : "login.spec.ts > valid login with standard user @smoke @critical"
+ * Output: "valid login with standard user"
+ */
+function extractGrepPattern(testName: string): string {
+  // Extract title after ">"
+  const title = testName.includes('>')
+    ? testName.split('>')[1].trim()
+    : testName.trim();
+
+  // Keep @tags! Only escape true regex special characters
+  return title
+    .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/—/g, '.');
+}
+
+/**
  * Assigns a test to a run group based on risk level
  */
 function assignRunGroup(
@@ -64,6 +90,7 @@ export function buildExecutionPlan(
     priority: index + 1,
     testFile: extractTestFile(score.testName),
     testName: score.testName,
+    grepPattern: extractGrepPattern(score.testName),
     riskScore: score.riskScore,
     riskLevel: score.riskLevel,
     recommendation: score.recommendation,
