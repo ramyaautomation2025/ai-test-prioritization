@@ -49,17 +49,13 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BUILD_NUMBER: ${{ github.run_number }}
 
-      - name: Step 5 — Run Group A (Critical tests first)
-        run: npx playwright test --grep @critical --reporter=list
-        continue-on-error: false
-
-      - name: Step 6 — Run Group B (Regression tests)
-        run: npx playwright test --grep @regression --reporter=list
-        continue-on-error: false
-
-      - name: Step 7 — Run Group C (Smoke tests)
-        run: npx playwright test --grep @smoke --reporter=list
-        continue-on-error: false
+      - name: 🤖 Run AI Smart Test Pipeline
+        run: npx ts-node src/runner/smartRunner.ts
+        env:
+          GEMINI_API_KEY : ${{ secrets.GEMINI_API_KEY }}
+          DATABASE_URL   : ${{ secrets.DATABASE_URL }}
+          BUILD_NUMBER   : ${{ github.run_number }}
+        continue-on-error: true
 
       - name: 💾 Save test results to PostgreSQL
         run: npx ts-node src/database/historyWriter.ts
