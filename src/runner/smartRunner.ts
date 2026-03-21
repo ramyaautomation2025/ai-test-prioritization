@@ -92,39 +92,40 @@ function ensureOutputFolders(): void {
  */function writeTempPlaywrightConfig(
   absoluteOutputPath: string,
   groupName         : string
-): { configPath: string; tempJsonPath: string } {
+): string {
+  const normalizedOutputPath = absoluteOutputPath.replace(/\\/g, '/');
+  const safeGroupName        = groupName.toLowerCase().replace(/\s+/g, '');
 
-  const safeGroupName = groupName.toLowerCase().replace(/\s+/g, '');
+  // ── KEY FIX: Use reports/ NOT playwright-report/ ──────────────
+  // Each group gets completely isolated folder under reports/
+  // No shared assets — Group B cannot touch Group A's files
+  const htmlFolder = path.join(
+    process.cwd(), 'reports', safeGroupName
+  ).replace(/\\/g, '/');
 
-  // ── KEY FIX: Write JSON to a NO-SPACE path first ───────────────
-  // Playwright JSON reporter on Windows fails silently when
-  // the output path contains spaces (e.g. "E:/AI Project/...")
-  // Solution: write to a short path in TEMP folder (no spaces!)
-  // then copy to final destination after Playwright finishes
-  const tempJsonPath = path.join(
-    process.env.TEMP || process.env.TMP || 'C:\\Windows\\Temp',
-    `pw-results-${safeGroupName}-${Date.now()}.json`
-  );
-
-  // Normalize to forward slashes for config file
-  const normalizedTempJsonPath = tempJsonPath.replace(/\\/g, '/');
+  // Ensure folder exists before Playwright runs
+  if (!fs.existsSync(htmlFolder)) {
+    fs.mkdirSync(htmlFolder, { recursive: true });
+  }
 
   const configContent = [
     `const { defineConfig, devices } = require('@playwright/test');`,
     `require('dotenv').config();`,
     `module.exports = defineConfig({`,
-    `  testDir : './tests',`,
-    `  timeout : 30000,`,
-    `  retries : 0,`,
-    `  workers : 2,`,
+    `  testDir       : './tests',`,
+    `  timeout       : 30000,`,
+    `  retries       : 0,`,
+    `  workers       : 2,`,
+    `  preserveOutput: 'always',`,
     `  reporter: [`,
     `    ['list'],`,
-    // Write to TEMP path — NO spaces, guaranteed writable
-    `    ['json', { outputFile: ${JSON.stringify(normalizedTempJsonPath)} }],`,
+    `    ['json', { outputFile  : ${JSON.stringify(normalizedOutputPath)} }],`,
+    `    ['html', { outputFolder: ${JSON.stringify(htmlFolder)}, open: 'never' }],`,
     `  ],`,
     `  use: {`,
     `    baseURL   : process.env.BASE_URL || 'https://www.saucedemo.com',`,
     `    screenshot: 'only-on-failure',`,
+    `    video     : 'retain-on-failure',`,
     `    viewport  : { width: 1280, height: 720 },`,
     `  },`,
     `  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],`,
@@ -138,10 +139,375 @@ function ensureOutputFolders(): void {
 
   fs.writeFileSync(configPath, configContent);
 
-  console.log(`[${new Date().toISOString()}] 📝 Config  : ${path.basename(configPath)}`);
-  console.log(`[${new Date().toISOString()}] 📝 Temp JSON: ${tempJsonPath}`);
+  console.log(`[${new Date().toISOString()}] ⚙️  Config : ${path.basename(configPath)}`);
+  console.log(`[${new Date().toISOString()}] 📄 HTML   : reports/${safeGroupName}/`);
 
-  return { configPath, tempJsonPath };
+  return configPath;
+}
+/**
+ * Generates HTML report from existing JSON results file
+ * using Playwright's built-in show-report capability.
+ * This avoids all issues with HTML reporter during test run.
+ */
+function generateHtmlFromJson(
+  groupName  : string,
+  jsonFile   : string,
+  outputFolder: string
+): void {
+
+  const fullJsonPath   = path.join(process.cwd(), jsonFile);
+  const fullOutputPath = path.join(process.cwd(), outputFolder);
+
+  if (!fs.existsSync(fullJsonPath)) {
+    console.warn(
+      `[${new Date().toISOString()}] ⚠️  ${groupName}: JSON not found at ${jsonFile}`
+    );
+    return;
+  }
+
+  // Ensure output folder exists
+  if (!fs.existsSync(fullOutputPath)) {
+    fs.mkdirSync(fullOutputPath, { recursive: true });
+  }
+
+  try {
+    // Use Playwright JSON reporter output to generate HTML
+    // by creating a minimal standalone HTML from the JSON data
+    const raw     = fs.readFileSync(fullJsonPath, 'utf-8');
+    const data    = JSON.parse(raw);
+    const results = extractFromSuites(data.suites || []);
+
+    if (results.length === 0) {
+      console.warn(
+        `[${new Date().toISOString()}] ⚠️  ${groupName}: No test results in JSON`
+      );
+      return;
+    }
+
+    const passed  = results.filter((r) => r.status === 'passed').length;
+    const failed  = results.filter((r) => r.status === 'failed').length;
+    const retried = results.filter((r) => r.retryCount > 0).length;
+
+    // Generate standalone HTML report from JSON data
+    const groupIcon  =
+      groupName.includes('A') ? '🔴' :
+      groupName.includes('B') ? '🟡' : '🟢';
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>${groupName} — Playwright Results</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f7fafc;
+      padding: 32px;
+      color: #2d3748;
+    }
+    .header {
+      background: white;
+      border-radius: 12px;
+      padding: 24px 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header h1 { font-size: 22px; font-weight: 800; }
+    .header p  { color: #718096; font-size: 13px; margin-top: 4px; }
+    .stats {
+      display: flex;
+      gap: 12px;
+    }
+    .stat {
+      text-align: center;
+      padding: 12px 20px;
+      border-radius: 8px;
+      min-width: 80px;
+    }
+    .stat.total  { background: #edf2f7; }
+    .stat.passed { background: #f0fff4; color: #276749; }
+    .stat.failed { background: #fff5f5; color: #c53030; }
+    .stat.retry  { background: #fffff0; color: #744210; }
+    .stat-num  { font-size: 28px; font-weight: 800; }
+    .stat-label{ font-size: 11px; font-weight: 600; text-transform: uppercase; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #4a5568;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { color: #2d3748; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    thead { background: #2d3748; color: white; }
+    th {
+      padding: 14px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td { padding: 14px 16px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f7fafc; }
+    .status-pass {
+      background: #c6f6d5; color: #22543d;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+    }
+    .status-fail {
+      background: #fed7d7; color: #c53030;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 11px; font-weight: 700;
+    }
+    .retry-badge {
+      background: #fefcbf; color: #744210;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 10px; font-weight: 600;
+      margin-left: 6px;
+    }
+    .error-msg {
+      color: #c53030;
+      font-size: 11px;
+      margin-top: 4px;
+      font-style: italic;
+    }
+    .module-badge {
+      background: #edf2f7; color: #4a5568;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase;
+    }
+    .duration { color: #718096; font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <a class="back-link" href="../index.html">← Back to All Groups</a>
+
+  <div class="header">
+    <div>
+      <h1>${groupIcon} ${groupName}</h1>
+      <p>Generated: ${new Date().toLocaleString()} &nbsp;|&nbsp; Playwright + TypeScript + Gemini AI</p>
+    </div>
+    <div class="stats">
+      <div class="stat total">
+        <div class="stat-num">${results.length}</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat passed">
+        <div class="stat-num">${passed}</div>
+        <div class="stat-label">Passed</div>
+      </div>
+      <div class="stat failed">
+        <div class="stat-num">${failed}</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat retry">
+        <div class="stat-num">${retried}</div>
+        <div class="stat-label">Retried</div>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Test Name</th>
+        <th>Module</th>
+        <th>Status</th>
+        <th>Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${results.map((r, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>
+          <div>
+            ${r.testName.includes('>') ? r.testName.split('>')[1].trim() : r.testName}
+            ${r.retryCount > 0 ? `<span class="retry-badge">🔄 ${r.retryCount} retry</span>` : ''}
+          </div>
+          ${r.errorMessage ? `<div class="error-msg">❌ ${r.errorMessage}</div>` : ''}
+        </td>
+        <td><span class="module-badge">${r.module}</span></td>
+        <td>
+          <span class="${r.status === 'passed' ? 'status-pass' : 'status-fail'}">
+            ${r.status === 'passed' ? '✅ PASSED' : '❌ FAILED'}
+          </span>
+        </td>
+        <td class="duration">${(r.duration / 1000).toFixed(1)}s</td>
+      </tr>`).join('')}
+    </tbody>
+  </table>
+
+</body>
+</html>`;
+
+    fs.writeFileSync(path.join(fullOutputPath, 'index.html'), html);
+
+    console.log(
+      `[${new Date().toISOString()}] ✅ ${groupName} HTML report → ${outputFolder}/index.html (${results.length} tests)`
+    );
+
+  } catch (error) {
+    console.error(
+      `[${new Date().toISOString()}] ❌ Failed to generate HTML for ${groupName}: ${error}`
+    );
+  }
+}
+/**
+ * Creates a combined index.html that links to all three group reports.
+ * Simple and reliable — no merging needed.
+ */
+function generateCombinedIndex(): void {
+  console.log(
+    `[${new Date().toISOString()}] 📊 Generating combined report index...`
+  );
+
+  const groups = [
+    { name: 'Group A — Critical / High Risk', folder: 'groupa', icon: '🔴' },
+    { name: 'Group B — Medium Risk',          folder: 'groupb', icon: '🟡' },
+    { name: 'Group C — Low Risk',             folder: 'groupc', icon: '🟢' },
+  ];
+
+  // Check which group reports actually exist and have content
+  const groupStats = groups.map((g) => {
+    const reportPath = path.join(process.cwd(), 'reports', g.folder, 'index.html');
+    const exists     = fs.existsSync(reportPath);
+
+    // Check file size — Playwright writes ~50KB+ for a real report
+    // A "no tests" report is much smaller (~5KB)
+    const size = exists ? fs.statSync(reportPath).size : 0;
+    const hasTests = size > 10;   // real report > 10KB
+
+    console.log(
+      `[${new Date().toISOString()}] 📋 ${g.folder}: exists=${exists} size=${size} bytes hasTests=${hasTests}`
+    );
+
+    return { ...g, exists, hasTests };
+  });
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Smart Test Run — Combined Report</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container { max-width: 620px; width: 100%; padding: 40px 20px; }
+    .header { text-align: center; margin-bottom: 40px; }
+    .header h1 { font-size: 28px; font-weight: 800; color: #1a202c; margin-bottom: 8px; }
+    .header p  { color: #718096; font-size: 14px; margin-top: 4px; }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border-left: 5px solid transparent;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    .card.groupa { border-left-color: #e53e3e; }
+    .card.groupb { border-left-color: #d69e2e; }
+    .card.groupc { border-left-color: #38a169; }
+    .card.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+    .card-left { display: flex; align-items: center; gap: 16px; }
+    .icon      { font-size: 36px; }
+    .card-title { font-size: 16px; font-weight: 700; color: #2d3748; }
+    .card-sub   { font-size: 12px; color: #718096; margin-top: 4px; }
+    .badge {
+      background: #edf2f7; color: #4a5568;
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 12px; font-weight: 600;
+    }
+    .arrow { font-size: 20px; color: #718096; }
+    .footer {
+      text-align: center; margin-top: 32px;
+      color: #a0aec0; font-size: 12px; line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <h1>🤖 AI Smart Test Run</h1>
+      <p>Generated: ${new Date().toLocaleString()}</p>
+      <p>Tests prioritized by Gemini AI risk scoring</p>
+    </div>
+
+    ${groupStats.map((g) => `
+    <a href="${g.folder}/index.html"
+       class="card ${g.folder}${g.hasTests ? '' : ' disabled'}">
+      <div class="card-left">
+        <div class="icon">${g.icon}</div>
+        <div>
+          <div class="card-title">${g.name}</div>
+          <div class="card-sub">
+            ${g.hasTests
+              ? 'Click to view full Playwright HTML report'
+              : 'No tests assigned to this group in this run'}
+          </div>
+        </div>
+      </div>
+      ${g.hasTests
+        ? '<div class="arrow">→</div>'
+        : '<span class="badge">Empty</span>'}
+    </a>`).join('')}
+
+    <div class="footer">
+      <p>AI Engine: Gemini 2.5 Flash Lite &nbsp;|&nbsp; Playwright + TypeScript</p>
+      <p>Score ranges: 🔴 Critical 80-100 &nbsp;|&nbsp; 🟡 Medium 40-79 &nbsp;|&nbsp; 🟢 Low 0-39</p>
+    </div>
+
+  </div>
+</body>
+</html>`;
+
+  // Write combined index to reports/ root
+  const indexPath = path.join(process.cwd(), 'reports', 'index.html');
+  fs.writeFileSync(indexPath, html);
+
+  console.log(
+    `[${new Date().toISOString()}] ✅ Combined index → reports/index.html`
+  );
+  console.log(
+    `[${new Date().toISOString()}] 📁 Report structure:`
+  );
+  console.log(`   reports/index.html       ← combined index`);
+  console.log(`   reports/groupa/index.html ← Group A report`);
+  console.log(`   reports/groupb/index.html ← Group B report`);
+  console.log(`   reports/groupc/index.html ← Group C report`);
 }
 // ── Helper: Extract tests from Playwright JSON suite structure ────────────────
 
@@ -346,6 +712,9 @@ function runTestsByAIPriority(
     process.cwd(),
     `playwright.${safeGroupName}.config.js`
   );
+
+  // Print full config to confirm HTML path
+console.log(`[${new Date().toISOString()}] 📝 Full temp config:\n${configContent}`);
 
   fs.writeFileSync(configPath, configContent);
   console.log(`[${new Date().toISOString()}] ⚙️  Config written : ${configPath}`);
@@ -592,9 +961,15 @@ summary.groupAFailed = !runTestsByAIPriority(
   'test-results/results-groupA.json'
 );
 
-// ── READ Group A results IMMEDIATELY before Group B can delete ────
+// ── READ + GENERATE HTML immediately before Group B deletes file ──
 groupAResults = readGroupResultsFromFile('test-results/results-groupA.json');
-console.log(`[${new Date().toISOString()}] 💾 Group A results captured in memory: ${groupAResults.length} tests`);
+generateHtmlFromJson(                              // ← ADD THIS HERE
+  'Group A — Critical / High Risk',
+  'test-results/results-groupA.json',
+  'reports/groupa'
+);
+console.log(`[${new Date().toISOString()}] 💾 Group A captured: ${groupAResults.length} tests`);
+
 
 // ── STEP 8: Run GROUP B ───────────────────────────────────────────
 printStep(8, '⚡ GROUP B — AI Selected Medium Risk Tests');
@@ -606,9 +981,14 @@ runTestsByAIPriority(
   'test-results/results-groupB.json'
 );
 
-// ── READ Group B results IMMEDIATELY before Group C can delete ────
+// ── READ + GENERATE HTML immediately before Group C deletes file ──
 groupBResults = readGroupResultsFromFile('test-results/results-groupB.json');
-console.log(`[${new Date().toISOString()}] 💾 Group B results captured in memory: ${groupBResults.length} tests`);
+generateHtmlFromJson(                              // ← ADD THIS HERE
+  'Group B — Medium Risk',
+  'test-results/results-groupB.json',
+  'reports/groupb'
+);
+console.log(`[${new Date().toISOString()}] 💾 Group B captured: ${groupBResults.length} tests`);
 
 // ── STEP 9: Run GROUP C ───────────────────────────────────────────
 printStep(9, '🟢 GROUP C — AI Selected Low Risk Tests');
@@ -620,9 +1000,18 @@ runTestsByAIPriority(
   'test-results/results-groupC.json'
 );
 
-// ── READ Group C results ──────────────────────────────────────────
+// ── READ + GENERATE HTML for Group C ──────────────────────────────
 groupCResults = readGroupResultsFromFile('test-results/results-groupC.json');
-console.log(`[${new Date().toISOString()}] 💾 Group C results captured in memory: ${groupCResults.length} tests`);
+generateHtmlFromJson(                              // ← ADD THIS HERE
+  'Group C — Low Risk',
+  'test-results/results-groupC.json',
+  'reports/groupc'
+);
+console.log(`[${new Date().toISOString()}] 💾 Group C captured: ${groupCResults.length} tests`);
+
+
+// ── Generate combined HTML report ─────────────────────────────
+generateCombinedIndex();
  
  // ── STEP 10: Merge from memory & Save to DB ───────────────────────
 printStep(10, '💾 Merging Group Results & Saving to PostgreSQL');
