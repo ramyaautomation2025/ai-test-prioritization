@@ -651,7 +651,7 @@ if (summary.dbConnected && testResults.length > 0) {
 }
 
 if (testResults.length > 0) {
-  updateHistoryJson(buildId, testResults);
+  updateHistoryJson(buildId, testResults, true);
 }
   // ── STEP 11: Retention Policy ─────────────────────────────────────
   printStep(11, '🧹 Applying Database Retention Policy');

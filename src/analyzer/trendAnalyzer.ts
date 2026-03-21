@@ -25,17 +25,19 @@ export interface Build {
  * Represents the analyzed trend for a single test
  */
 export interface TestTrend {
-  testName: string;
-  module: string;
-  totalRuns: number;
-  totalFailures: number;
-  failureRate: number;
-  recentTrend: 'worsening' | 'stable' | 'improving';
-  isFlaky: boolean;
-  recoveryPattern: boolean;
-  lastStatus: 'passed' | 'failed';
-  failureHistory: string[];
-  avgDuration: number;
+  testName        : string;
+  module          : string;
+  totalRuns       : number;
+  totalFailures   : number;
+  failureRate     : number;
+  recentTrend     : 'worsening' | 'stable' | 'improving';
+  isFlaky         : boolean;
+  flakinesReason  : string;   // ← NEW: explains WHY it is flaky
+  retryRate       : number;   // ← NEW: % of runs that needed retries
+  recoveryPattern : boolean;
+  lastStatus      : 'passed' | 'failed';
+  failureHistory  : string[];
+  avgDuration     : number;
 }
 
 /**
@@ -51,13 +53,52 @@ function loadHistory(): Build[] {
 /**
  * Detects if a test is flaky — alternates between pass and fail
  */
-function detectFlakiness(history: string[]): boolean {
+/**
+ * Enhanced flakiness detection — checks BOTH patterns:
+ *
+ * Pattern 1 (existing): Alternating pass/fail across builds
+ *   build1=pass, build2=fail, build3=pass, build4=fail → flaky
+ *
+ * Pattern 2 (NEW): Test passes but needed retries
+ *   build1=passed(retries:0), build2=passed(retries:1) → flaky!
+ *   The retry is a hidden failure that gets masked as "passed"
+ */
+function detectFlakinessEnhanced(
+  history   : string[],
+  retryCounts: number[]
+): { isFlaky: boolean; reason: string; retryRate: number } {
+
+  // ── Pattern 1: Alternating pass/fail ──────────────────────────
   let switches = 0;
   for (let i = 1; i < history.length; i++) {
     if (history[i] !== history[i - 1]) switches++;
   }
-  // Flaky if it switches more than 40% of the time
-  return switches / (history.length - 1) >= 0.4;
+  const switchRate = history.length > 1
+    ? switches / (history.length - 1)
+    : 0;
+  const isAlternatingFlaky = switchRate >= 0.4;
+
+  // ── Pattern 2: Retry-based flakiness ──────────────────────────
+  // A test that needed retries to pass is flaky even if final=passed
+  const runsWithRetries = retryCounts.filter((r) => r > 0).length;
+  const retryRate       = retryCounts.length > 0
+    ? runsWithRetries / retryCounts.length
+    : 0;
+  const isRetryFlaky = retryRate >= 0.2;  // flaky if 20%+ runs need retry
+
+  // ── Combined result ────────────────────────────────────────────
+  const isFlaky = isAlternatingFlaky || isRetryFlaky;
+
+  let reason = '';
+  if (isAlternatingFlaky && isRetryFlaky) {
+    reason = `Alternating pass/fail (${(switchRate * 100).toFixed(0)}% switches) AND needed retries in ${(retryRate * 100).toFixed(0)}% of runs`;
+  } else if (isAlternatingFlaky) {
+    reason = `Alternating pass/fail pattern — switches ${(switchRate * 100).toFixed(0)}% of runs`;
+  } else if (isRetryFlaky) {
+    reason = `Passed only after retries in ${(retryRate * 100).toFixed(0)}% of runs — hidden flakiness`;
+  }
+
+  return { isFlaky, reason, retryRate };
 }
 
 /**
@@ -106,77 +147,91 @@ export function analyzeTrends(): TestTrend[] {
 
   const builds = loadHistory();
 
-  // Collect all unique test names
-  const testMap: Map<string, {
-    module: string;
-    history: string[];
-    durations: number[];
-  }> = new Map();
+  const testMap = new Map<string, {
+    module     : string;
+    history    : string[];
+    durations  : number[];
+    retryCounts: number[];   // ← NEW
+  }>();
 
-  // Loop through every build and every result
   for (const build of builds) {
     for (const result of build.results) {
       if (!testMap.has(result.testName)) {
         testMap.set(result.testName, {
-          module: result.module,
-          history: [],
-          durations: [],
+          module     : result.module,
+          history    : [],
+          durations  : [],
+          retryCounts: [],
         });
       }
       const entry = testMap.get(result.testName)!;
       entry.history.push(result.status);
       entry.durations.push(result.duration);
+      // ← NEW: read retryCount from history, default 0 if not present
+      entry.retryCounts.push((result as any).retryCount || 0);
     }
   }
 
   const trends: TestTrend[] = [];
 
-  // Analyze each test
   for (const [testName, data] of testMap.entries()) {
-    const totalRuns = data.history.length;
+    const totalRuns     = data.history.length;
     const totalFailures = data.history.filter((s) => s === 'failed').length;
-    const failureRate = totalFailures / totalRuns;
-    const lastStatus = data.history[data.history.length - 1] as 'passed' | 'failed';
-    const avgDuration = Math.round(
+    const failureRate   = totalFailures / totalRuns;
+    const lastStatus    = data.history[data.history.length - 1] as 'passed' | 'failed';
+    const avgDuration   = Math.round(
       data.durations.reduce((a, b) => a + b, 0) / data.durations.length
     );
 
-    const trend: TestTrend = {
+    // ── Enhanced flakiness using retry data ───────────────────────
+    const { isFlaky, reason, retryRate } = detectFlakinessEnhanced(
+      data.history,
+      data.retryCounts
+    );
+
+    trends.push({
       testName,
-      module: data.module,
+      module         : data.module,
       totalRuns,
       totalFailures,
-      failureRate: parseFloat(failureRate.toFixed(2)),
-      recentTrend: analyzeRecentTrend(data.history),
-      isFlaky: detectFlakiness(data.history),
+      failureRate    : parseFloat(failureRate.toFixed(2)),
+      recentTrend    : analyzeRecentTrend(data.history),
+      isFlaky,
+      flakinesReason : reason,   // ← NEW
+      retryRate      : parseFloat(retryRate.toFixed(2)),   // ← NEW
       recoveryPattern: detectRecoveryPattern(data.history),
       lastStatus,
-      failureHistory: data.history,
+      failureHistory : data.history,
       avgDuration,
-    };
-
-    trends.push(trend);
+    });
   }
 
-  // Sort by failure rate descending
   trends.sort((a, b) => b.failureRate - a.failureRate);
 
-  console.log(`[${new Date().toISOString()}] ✅ Analyzed ${trends.length} tests across ${builds.length} builds`);
+  // ── Print enhanced summary ─────────────────────────────────────
+  console.log(
+    `[${new Date().toISOString()}] ✅ Analyzed ${trends.length} tests across ${builds.length} builds`
+  );
 
-  // Print summary to console
   console.log('\n📋 TREND SUMMARY:');
-  console.log('─'.repeat(80));
+  console.log('─'.repeat(90));
   for (const t of trends) {
-    const icon = t.failureRate >= 0.6 ? '🔴' : t.failureRate >= 0.4 ? '🟠' : t.failureRate >= 0.2 ? '🟡' : '🟢';
+    const icon =
+      t.failureRate >= 0.6 ? '🔴' :
+      t.failureRate >= 0.4 ? '🟠' :
+      t.failureRate >= 0.2 ? '🟡' : '🟢';
+
+    const retryIcon = t.retryRate > 0 ? ` 🔄 retry:${(t.retryRate * 100).toFixed(0)}%` : '';
+    const flakyIcon = t.isFlaky ? ' ⚡flaky' : '';
+
     console.log(
-      `${icon} ${t.testName.padEnd(50)} | FailRate: ${(t.failureRate * 100).toFixed(0)}% | Trend: ${t.recentTrend}`
+      `${icon} ${t.testName.padEnd(55)} | Fail:${(t.failureRate * 100).toFixed(0)}% | ${t.recentTrend}${retryIcon}${flakyIcon}`
     );
   }
-  console.log('─'.repeat(80));
+  console.log('─'.repeat(90));
 
   return trends;
 }
-
 // Run directly if called as script
 if (require.main === module) {
   analyzeTrends();

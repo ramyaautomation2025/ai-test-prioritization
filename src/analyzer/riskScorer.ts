@@ -26,23 +26,30 @@ export interface FinalRiskScore {
 function computeRuleScore(trend: TestTrend): number {
   let score = 0;
 
-  // Failure rate weight
+  // Failure rate
   if (trend.failureRate >= 0.6) score += 40;
   else if (trend.failureRate >= 0.4) score += 25;
   else if (trend.failureRate >= 0.2) score += 10;
 
-  // Recent trend weight
+  // Recent trend
   if (trend.recentTrend === 'worsening') score += 25;
   else if (trend.recentTrend === 'improving') score -= 10;
 
-  // Flakiness weight
+  // Flakiness (existing)
   if (trend.isFlaky) score += 15;
 
-  // Recovery pattern weight
+  // Recovery pattern
   if (trend.recoveryPattern) score += 20;
 
-  // Last status weight
+  // Last status
   if (trend.lastStatus === 'failed') score += 10;
+
+  // ── NEW: Retry-based scoring ───────────────────────────────────
+  // Tests that consistently need retries deserve higher risk scores
+  // even if they eventually pass — they are hiding real instability
+  if (trend.retryRate >= 0.5) score += 20;       // retried in 50%+ of runs
+  else if (trend.retryRate >= 0.3) score += 12;  // retried in 30%+ of runs
+  else if (trend.retryRate >= 0.2) score += 6;   // retried in 20%+ of runs
 
   return Math.max(0, Math.min(score, 100));
 }

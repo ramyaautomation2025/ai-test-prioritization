@@ -9,14 +9,16 @@
           "status": "failed",
           "duration": 2000,
           "module": "login",
-          "errorMessage": "Dashboard not loaded after login"
+          "errorMessage": "Dashboard not loaded after login",
+          "retryCount": 1
         },
         {
           "testName": "login.spec.ts > invalid login shows error message @regression",
           "status": "passed",
           "duration": 890,
           "module": "login",
-          "errorMessage": ""
+          "errorMessage": "",
+          "retryCount": 0
         },
         {
           "testName": "login.spec.ts > locked out user sees lock message @regression",
@@ -955,14 +957,16 @@
           "status": "passed",
           "duration": 998,
           "module": "profile",
-          "errorMessage": ""
+          "errorMessage": "",
+          "retryCount": 1
         },
         {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "failed",
           "duration": 1500,
           "module": "search",
-          "errorMessage": "Sort completely broken"
+          "errorMessage": "Sort completely broken",
+          "retryCount": 1
         },
         {
           "testName": "search.spec.ts > sort products by price high to low @regression",

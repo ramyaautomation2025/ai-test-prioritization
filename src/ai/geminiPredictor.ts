@@ -72,41 +72,94 @@ async function predictChunk(
   apiKey: string
 ): Promise<AIPrediction[]> {
 
-  const trendSummary = trends.map((t) => ({
-    n : t.testName,
-    fr: t.failureRate,
-    rt: t.recentTrend,
-    fl: t.isFlaky,
-    rp: t.recoveryPattern,
-    ls: t.lastStatus,
-    fh: t.failureHistory.join(','),
-  }));
+ const trendSummary = trends.map((t) => ({
+  n  : t.testName,
+  fr : t.failureRate,
+  rt : t.recentTrend,
+  fl : t.isFlaky,
+  rp : t.recoveryPattern,
+  ls : t.lastStatus,
+  fh : t.failureHistory.join(','),
+  rr : t.retryRate,
+  flr: t.flakinesReason,   // ← renamed from fr2 to flr (flakiness reason)
+}));
 
   const prompt = `
-You are a QA intelligence engine. Analyze these test failure trends and predict risk.
+You are a QA intelligence engine that predicts test failure risk in CI/CD pipelines.
 
-Data fields: n=testName, fr=failureRate(0-1), rt=recentTrend, fl=isFlaky, rp=recoveryPattern, ls=lastStatus, fh=failureHistory(passed/failed per build)
+=== TASK ===
+Analyze the test trend data below and assign a risk score to each test.
+Predict which tests are most likely to fail in the NEXT build.
 
-Trend Data:
-${JSON.stringify(trendSummary)}
+=== INPUT DATA ===
+${JSON.stringify(trendSummary, null, 2)}
 
-Scoring rules:
-- fr>0.6 = high risk | fr>0.4 = medium | fr>0.2 = low-medium
-- rt=worsening = higher risk | rt=improving = lower risk
-- fl=true = flaky = medium-high risk
-- rp=true = recovered then broke again = high risk
-- ls=failed = higher risk
-- Stable passing tests = low risk
+=== FIELD DEFINITIONS ===
+n   = testName (use this exact value in your response)
+fr  = failureRate (0.0 to 1.0 — proportion of builds where test failed)
+rt  = recentTrend (worsening | stable | improving — based on last 3 builds vs previous 3)
+fl  = isFlaky (true if test alternates pass/fail unpredictably)
+rp  = recoveryPattern (true if test was fixed then broke again — high instability signal)
+ls  = lastStatus (passed | failed — result of most recent build)
+fh  = failureHistory (comma-separated pass/failed per build, oldest to newest)
+rr  = retryRate (0.0 to 1.0 — proportion of builds where test needed retries to pass)
+flr = flakinessReason (explanation of why test is considered flaky, empty if not flaky)
 
-For each test return:
-- testName: use exact value from n field
-- riskScore: 0-100
-- riskLevel: critical|high|medium|low
-- reason: one sentence
-- recommendation: run-first|run-early|run-normal|deprioritize
+=== SCORING RULES (apply in priority order) ===
 
-Return ONLY a JSON array starting with [ and ending with ].
-No markdown. No explanation. No extra text.`;
+CRITICAL signals (any one → score 80-100):
+  - fr >= 0.7 AND rt = worsening → almost certain to fail next build
+  - rp = true AND ls = failed    → broke again after fix, very high risk
+  - fh ends with 3+ consecutive "failed" → active regression
+
+HIGH signals (any one → score 60-79):
+  - fr >= 0.5 OR (fr >= 0.4 AND rt = worsening)
+  - fl = true AND fr >= 0.4      → consistently flaky with high failure rate
+  - rr >= 0.5                    → needed retries in half or more of builds
+
+MEDIUM signals (score 40-59):
+  - fr >= 0.2 AND fr < 0.5       → occasional failures
+  - fl = true AND fr < 0.4       → flaky but mostly passes
+  - rr >= 0.2 AND rr < 0.5       → sometimes needs retries to pass
+  - rt = worsening AND fr < 0.4  → trending bad but not yet frequent
+
+LOW signals (score 0-39):
+  - fr = 0 AND rr = 0 AND ls = passed → perfectly stable, no retries needed
+  - fr < 0.1 AND rt = stable          → rarely fails, not getting worse
+  - rt = improving AND fr < 0.3       → was failing but getting better
+
+IMPORTANT OVERRIDES:
+  - rr > 0 AND ls = passed → test is hiding instability via retries
+    → add +15 to score even if fr looks low
+  - rt = improving AND ls = passed → reduce score by 10 (recovering)
+  - rt = worsening → always increase score by at least 15
+
+=== OUTPUT FORMAT ===
+Return ONLY a valid JSON array. No markdown. No explanation. No extra text.
+First character must be [ and last character must be ]
+
+For each test return exactly these fields:
+[
+  {
+    "testName": "exact value from n field",
+    "riskScore": 0-100,
+    "riskLevel": "critical OR high OR medium OR low",
+    "reason": "one sentence citing the specific signals that drove this score",
+    "recommendation": "run-first OR run-early OR run-normal OR deprioritize"
+  }
+]
+
+riskLevel must match riskScore:
+  critical = 80-100
+  high     = 60-79
+  medium   = 40-59
+  low      = 0-39
+
+recommendation must match riskLevel:
+  critical → run-first
+  high     → run-early
+  medium   → run-normal
+  low      → deprioritize`;
 
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent`,

@@ -51,15 +51,15 @@ jobs:
 
       - name: Step 5 — Run Group A (Critical tests first)
         run: npx playwright test --grep @critical --reporter=list
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Step 6 — Run Group B (Regression tests)
         run: npx playwright test --grep @regression --reporter=list
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Step 7 — Run Group C (Smoke tests)
         run: npx playwright test --grep @smoke --reporter=list
-        continue-on-error: true
+        continue-on-error: false
 
       - name: 💾 Save test results to PostgreSQL
         run: npx ts-node src/database/historyWriter.ts
