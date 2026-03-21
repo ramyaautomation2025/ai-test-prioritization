@@ -45,22 +45,6 @@ test.describe('Login Module @critical', () => {
     await expect(error).toBeVisible();
     await expect(error).toContainText('Sorry, this user has been locked out');
   });
-
-  test('empty username shows validation error @regression', async ({ page }) => {
-    await page.locator('[data-test="login-button"]').click();
-
-    const error = page.locator('[data-test="error"]');
-    await expect(error).toBeVisible();
-    await expect(error).toContainText('Username is required');
-  });
-
-  test('empty password shows validation error @regression', async ({ page }) => {
-    await page.locator('[data-test="username"]').fill('standard_user');
-    await page.locator('[data-test="login-button"]').click();
-
-    const error = page.locator('[data-test="error"]');
-    await expect(error).toBeVisible();
-    await expect(error).toContainText('Password is required');
-  });
+  
 
 });

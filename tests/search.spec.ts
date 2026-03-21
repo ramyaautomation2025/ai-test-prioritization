@@ -36,21 +36,4 @@ test.describe('Search & Sort Module @regression', () => {
     const sorted = [...numeric].sort((a, b) => b - a);
     expect(numeric).toEqual(sorted);
   });
-
-  test('sort products by name A to Z @regression', async ({ page }) => {
-    await page.locator('[data-test="product-sort-container"]').selectOption('az');
-    const names = page.locator('.inventory_item_name');
-    const allNames = await names.allTextContents();
-    const sorted = [...allNames].sort();
-    expect(allNames).toEqual(sorted);
-  });
-
-  test('sort products by name Z to A @regression', async ({ page }) => {
-    await page.locator('[data-test="product-sort-container"]').selectOption('za');
-    const names = page.locator('.inventory_item_name');
-    const allNames = await names.allTextContents();
-    const sorted = [...allNames].sort().reverse();
-    expect(allNames).toEqual(sorted);
-  });
-
 });

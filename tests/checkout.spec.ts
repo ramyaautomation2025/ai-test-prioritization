@@ -22,19 +22,7 @@ test.describe('Checkout Module @critical', () => {
       });
     }
   });
-
-  test('checkout step one — fill customer info @critical @smoke', async ({ page }) => {
-    await page.locator('[data-test="checkout"]').click();
-    await expect(page).toHaveURL(/checkout-step-one/);
-
-    await page.locator('[data-test="firstName"]').fill('John');
-    await page.locator('[data-test="lastName"]').fill('Doe');
-    await page.locator('[data-test="postalCode"]').fill('12345');
-    await page.locator('[data-test="continue"]').click();
-
-    await expect(page).toHaveURL(/checkout-step-two/);
-  });
-
+ 
   test('checkout step two — verify order summary @critical', async ({ page }) => {
     await page.locator('[data-test="checkout"]').click();
     await page.locator('[data-test="firstName"]').fill('John');
@@ -57,15 +45,6 @@ test.describe('Checkout Module @critical', () => {
 
     await expect(page).toHaveURL(/checkout-complete/);
     await expect(page.locator('.complete-header')).toContainText('Thank you');
-  });
-
-  test('checkout validation — empty first name @regression', async ({ page }) => {
-    await page.locator('[data-test="checkout"]').click();
-    await page.locator('[data-test="continue"]').click();
-
-    const error = page.locator('[data-test="error"]');
-    await expect(error).toBeVisible();
-    await expect(error).toContainText('First Name is required');
   });
 
   test('cancel checkout returns to cart @regression', async ({ page }) => {

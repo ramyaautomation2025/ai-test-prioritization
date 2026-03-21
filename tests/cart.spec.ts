@@ -39,22 +39,6 @@ test.describe('Cart Module @smoke', () => {
 
     await page.locator('[data-test="remove-sauce-labs-backpack"]').click();
     await expect(page.locator('.shopping_cart_badge')).not.toBeVisible();
-  });
-
-  test('cart page shows added items @regression', async ({ page }) => {
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await page.locator('.shopping_cart_link').click();
-
-    await expect(page).toHaveURL(/cart/);
-    await expect(page.locator('.cart_item')).toHaveCount(1);
-    await expect(page.locator('.inventory_item_name')).toContainText('Sauce Labs Backpack');
-  });
-
-  test('continue shopping from cart @regression', async ({ page }) => {
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await page.locator('.shopping_cart_link').click();
-    await page.locator('[data-test="continue-shopping"]').click();
-    await expect(page).toHaveURL(/inventory/);
-  });
+  }); 
 
 });

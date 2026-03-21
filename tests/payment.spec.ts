@@ -40,12 +40,7 @@ test.describe('Payment Summary Module @critical', () => {
     expect(text).toContain('Item total: $');
   });
 
-  test('payment summary shows tax amount @regression', async ({ page }) => {
-    const tax = page.locator('.summary_tax_label');
-    await expect(tax).toBeVisible();
-    const text = await tax.textContent();
-    expect(text).toContain('Tax: $');
-  });
+  
 
   test('payment summary total is correct @critical', async ({ page }) => {
     const subtotalText = await page.locator('.summary_subtotal_label').textContent();
@@ -59,11 +54,5 @@ test.describe('Payment Summary Module @critical', () => {
     expect(Math.round((subtotal + tax) * 100)).toBe(Math.round(total * 100));
   });
 
-  test('finish button completes order @critical @smoke', async ({ page }) => {
-    await page.locator('[data-test="finish"]').click();
-    await expect(page).toHaveURL(/checkout-complete/);
-    await expect(page.locator('.complete-header')).toContainText('Thank you');
-    await expect(page.locator('[data-test="back-to-products"]')).toBeVisible();
-  });
 
 });

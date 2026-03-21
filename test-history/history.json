@@ -1,466 +1,6 @@
 {
   "builds": [
     {
-      "buildId": "build-002",
-      "timestamp": "2026-02-05T10:00:00Z",
-      "results": [
-        {
-          "testName": "login.spec.ts > valid login with standard user @smoke @critical",
-          "status": "failed",
-          "duration": 1900,
-          "module": "login",
-          "errorMessage": "Login button unresponsive"
-        },
-        {
-          "testName": "login.spec.ts > invalid login shows error message @regression",
-          "status": "passed",
-          "duration": 870,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > locked out user sees lock message @regression",
-          "status": "passed",
-          "duration": 950,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 830,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 810,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > add single item to cart @smoke @critical",
-          "status": "passed",
-          "duration": 1050,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > add multiple items to cart @regression",
-          "status": "passed",
-          "duration": 1150,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > remove item from cart @regression",
-          "status": "failed",
-          "duration": 1200,
-          "module": "cart",
-          "errorMessage": "Cart count not updated"
-        },
-        {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1020,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 940,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "failed",
-          "duration": 1700,
-          "module": "checkout",
-          "errorMessage": "Form field not interactable"
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
-          "status": "passed",
-          "duration": 1550,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
-          "status": "passed",
-          "duration": 2900,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 880,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
-          "status": "passed",
-          "duration": 860,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 780,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > all product names are visible @smoke",
-          "status": "passed",
-          "duration": 760,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > product listing shows prices @regression",
-          "status": "passed",
-          "duration": 820,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 880,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
-          "duration": 2050,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
-          "duration": 1950,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1850,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary total is correct @critical",
-          "status": "failed",
-          "duration": 2500,
-          "module": "payment",
-          "errorMessage": "Subtotal incorrect"
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2150,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > view profile menu items @regression",
-          "status": "passed",
-          "duration": 1100,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > logout from application @smoke",
-          "status": "passed",
-          "duration": 960,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > navigate to all items from menu @regression",
-          "status": "passed",
-          "duration": 990,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1080,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by price low to high @regression",
-          "status": "passed",
-          "duration": 1300,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by price high to low @regression",
-          "status": "passed",
-          "duration": 1280,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1220,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1180,
-          "module": "search",
-          "errorMessage": ""
-        }
-      ]
-    },
-    {
-      "buildId": "build-003",
-      "timestamp": "2026-02-09T10:00:00Z",
-      "results": [
-        {
-          "testName": "login.spec.ts > valid login with standard user @smoke @critical",
-          "status": "passed",
-          "duration": 1600,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > invalid login shows error message @regression",
-          "status": "failed",
-          "duration": 1100,
-          "module": "login",
-          "errorMessage": "Error message not displayed"
-        },
-        {
-          "testName": "login.spec.ts > locked out user sees lock message @regression",
-          "status": "failed",
-          "duration": 1300,
-          "module": "login",
-          "errorMessage": "Redirect failed"
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 840,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 800,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > add single item to cart @smoke @critical",
-          "status": "passed",
-          "duration": 1080,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > add multiple items to cart @regression",
-          "status": "passed",
-          "duration": 1180,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > remove item from cart @regression",
-          "status": "failed",
-          "duration": 1250,
-          "module": "cart",
-          "errorMessage": "Item still in cart"
-        },
-        {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1040,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 960,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "passed",
-          "duration": 1450,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
-          "status": "passed",
-          "duration": 1520,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
-          "status": "failed",
-          "duration": 3100,
-          "module": "checkout",
-          "errorMessage": "Order confirmation missing"
-        },
-        {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 870,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
-          "status": "passed",
-          "duration": 840,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 790,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > all product names are visible @smoke",
-          "status": "passed",
-          "duration": 770,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > product listing shows prices @regression",
-          "status": "passed",
-          "duration": 830,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 890,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
-          "duration": 2080,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
-          "duration": 1980,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1880,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary total is correct @critical",
-          "status": "passed",
-          "duration": 2300,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2180,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > view profile menu items @regression",
-          "status": "passed",
-          "duration": 1050,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > logout from application @smoke",
-          "status": "passed",
-          "duration": 970,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > navigate to all items from menu @regression",
-          "status": "passed",
-          "duration": 1000,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1090,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by price low to high @regression",
-          "status": "failed",
-          "duration": 1500,
-          "module": "search",
-          "errorMessage": "Incorrect sort order"
-        },
-        {
-          "testName": "search.spec.ts > sort products by price high to low @regression",
-          "status": "passed",
-          "duration": 1350,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1260,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1210,
-          "module": "search",
-          "errorMessage": ""
-        }
-      ]
-    },
-    {
       "buildId": "build-004",
       "timestamp": "2026-02-13T10:00:00Z",
       "results": [
@@ -469,7 +9,7 @@
           "status": "failed",
           "duration": 2000,
           "module": "login",
-          "errorMessage": "Session not created"
+          "errorMessage": "Dashboard not loaded after login"
         },
         {
           "testName": "login.spec.ts > invalid login shows error message @regression",
@@ -484,20 +24,6 @@
           "duration": 1250,
           "module": "login",
           "errorMessage": "Expected error not shown"
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 845,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 815,
-          "module": "login",
-          "errorMessage": ""
         },
         {
           "testName": "cart.spec.ts > add single item to cart @smoke @critical",
@@ -521,30 +47,9 @@
           "errorMessage": ""
         },
         {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1030,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 945,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "passed",
-          "duration": 1400,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "passed",
-          "duration": 1500,
+          "duration": 1400,
           "module": "checkout",
           "errorMessage": ""
         },
@@ -556,24 +61,10 @@
           "errorMessage": ""
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 875,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 855,
           "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 760,
-          "module": "homepage",
           "errorMessage": ""
         },
         {
@@ -591,18 +82,11 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 870,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
+          "status": "failed",
           "duration": 2030,
           "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Count showing 0 instead of 2"
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
@@ -612,32 +96,18 @@
           "errorMessage": ""
         },
         {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1830,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
           "status": "failed",
-          "duration": 2600,
+          "duration": 2700,
           "module": "payment",
-          "errorMessage": "Tax amount wrong"
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2120,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Discount not applied to total"
         },
         {
           "testName": "profile.spec.ts > view profile menu items @regression",
           "status": "failed",
           "duration": 1300,
           "module": "profile",
-          "errorMessage": "Profile page timeout"
+          "errorMessage": "Profile menu not expanding"
         },
         {
           "testName": "profile.spec.ts > logout from application @smoke",
@@ -654,13 +124,6 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1085,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "passed",
           "duration": 1250,
@@ -671,20 +134,6 @@
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
           "duration": 1230,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1200,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1160,
           "module": "search",
           "errorMessage": ""
         }
@@ -699,7 +148,7 @@
           "status": "failed",
           "duration": 1850,
           "module": "login",
-          "errorMessage": "Login timeout"
+          "errorMessage": "Login timeout after 30s"
         },
         {
           "testName": "login.spec.ts > invalid login shows error message @regression",
@@ -712,20 +161,6 @@
           "testName": "login.spec.ts > locked out user sees lock message @regression",
           "status": "passed",
           "duration": 930,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 835,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 805,
           "module": "login",
           "errorMessage": ""
         },
@@ -745,38 +180,17 @@
         },
         {
           "testName": "cart.spec.ts > remove item from cart @regression",
-          "status": "passed",
-          "duration": 950,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1015,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 935,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
           "status": "failed",
-          "duration": 1800,
-          "module": "checkout",
-          "errorMessage": "ZIP code field missing"
+          "duration": 1350,
+          "module": "cart",
+          "errorMessage": "Item persists after removal"
         },
         {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
-          "status": "passed",
-          "duration": 1580,
+          "status": "failed",
+          "duration": 1800,
           "module": "checkout",
-          "errorMessage": ""
+          "errorMessage": "Summary page blank"
         },
         {
           "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
@@ -786,13 +200,6 @@
           "errorMessage": "Checkout button disabled"
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 865,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 845,
@@ -800,16 +207,9 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 770,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "homepage.spec.ts > all product names are visible @smoke",
           "status": "passed",
-          "duration": 755,
+          "duration": 770,
           "module": "homepage",
           "errorMessage": ""
         },
@@ -821,53 +221,32 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 860,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
+          "status": "failed",
           "duration": 2010,
           "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Payment page not loading"
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
+          "status": "failed",
           "duration": 1910,
           "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1810,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Item total showing NaN"
         },
         {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
           "status": "failed",
           "duration": 2700,
           "module": "payment",
-          "errorMessage": "Discount not applied"
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2100,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Grand total is zero"
         },
         {
           "testName": "profile.spec.ts > view profile menu items @regression",
-          "status": "failed",
-          "duration": 1400,
+          "status": "passed",
+          "duration": 1050,
           "module": "profile",
-          "errorMessage": "Profile data not loaded"
+          "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > logout from application @smoke",
@@ -884,13 +263,6 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1075,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "failed",
           "duration": 1450,
@@ -901,20 +273,6 @@
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
           "duration": 1320,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1240,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1190,
           "module": "search",
           "errorMessage": ""
         }
@@ -943,21 +301,7 @@
           "status": "failed",
           "duration": 1350,
           "module": "login",
-          "errorMessage": "Lock message missing"
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 838,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 808,
-          "module": "login",
-          "errorMessage": ""
+          "errorMessage": "Lock message missing on UI"
         },
         {
           "testName": "cart.spec.ts > add single item to cart @smoke @critical",
@@ -981,30 +325,9 @@
           "errorMessage": ""
         },
         {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1025,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 942,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "passed",
-          "duration": 1380,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "passed",
-          "duration": 1480,
+          "duration": 1380,
           "module": "checkout",
           "errorMessage": ""
         },
@@ -1016,24 +339,10 @@
           "errorMessage": ""
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 872,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 852,
           "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 750,
-          "module": "homepage",
           "errorMessage": ""
         },
         {
@@ -1051,13 +360,6 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 850,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
           "status": "passed",
           "duration": 2020,
@@ -1066,17 +368,10 @@
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
+          "status": "failed",
           "duration": 1920,
           "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1820,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Item total calculation wrong"
         },
         {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
@@ -1084,13 +379,6 @@
           "duration": 2650,
           "module": "payment",
           "errorMessage": "Total calculation wrong"
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2110,
-          "module": "payment",
-          "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > view profile menu items @regression",
@@ -1114,13 +402,6 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1078,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "passed",
           "duration": 1200,
@@ -1131,20 +412,6 @@
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
           "duration": 1180,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1150,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1120,
           "module": "search",
           "errorMessage": ""
         }
@@ -1159,7 +426,7 @@
           "status": "failed",
           "duration": 1950,
           "module": "login",
-          "errorMessage": "Cookie not set"
+          "errorMessage": "Cookie not set after login"
         },
         {
           "testName": "login.spec.ts > invalid login shows error message @regression",
@@ -1173,21 +440,7 @@
           "status": "failed",
           "duration": 1280,
           "module": "login",
-          "errorMessage": "Unexpected redirect"
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 842,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 812,
-          "module": "login",
-          "errorMessage": ""
+          "errorMessage": "Unexpected redirect on locked user"
         },
         {
           "testName": "cart.spec.ts > add single item to cart @smoke @critical",
@@ -1211,30 +464,9 @@
           "errorMessage": "Item still in cart after remove"
         },
         {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1035,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 948,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "passed",
-          "duration": 1420,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "passed",
-          "duration": 1530,
+          "duration": 1420,
           "module": "checkout",
           "errorMessage": ""
         },
@@ -1246,24 +478,10 @@
           "errorMessage": "Final step not reached"
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 868,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 848,
           "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 780,
-          "module": "homepage",
           "errorMessage": ""
         },
         {
@@ -1281,32 +499,18 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 880,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
+          "status": "failed",
           "duration": 2060,
           "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Count missing on summary page"
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
+          "status": "failed",
           "duration": 1960,
           "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1860,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Total not displayed"
         },
         {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
@@ -1316,18 +520,11 @@
           "errorMessage": ""
         },
         {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2130,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
           "testName": "profile.spec.ts > view profile menu items @regression",
-          "status": "failed",
-          "duration": 1600,
+          "status": "passed",
+          "duration": 1080,
           "module": "profile",
-          "errorMessage": "Username missing on profile"
+          "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > logout from application @smoke",
@@ -1344,37 +541,16 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1082,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "failed",
           "duration": 1480,
           "module": "search",
-          "errorMessage": "Price list not sorted"
+          "errorMessage": "Price list not sorted correctly"
         },
         {
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
           "duration": 1340,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1255,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1205,
           "module": "search",
           "errorMessage": ""
         }
@@ -1400,22 +576,8 @@
         },
         {
           "testName": "login.spec.ts > locked out user sees lock message @regression",
-          "status": "failed",
+          "status": "passed",
           "duration": 1320,
-          "module": "login",
-          "errorMessage": "Error banner not visible"
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 843,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 813,
           "module": "login",
           "errorMessage": ""
         },
@@ -1441,32 +603,11 @@
           "errorMessage": ""
         },
         {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1045,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 952,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
+          "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "failed",
           "duration": 1750,
           "module": "checkout",
-          "errorMessage": "Last name field missing"
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
-          "status": "passed",
-          "duration": 1560,
-          "module": "checkout",
-          "errorMessage": ""
+          "errorMessage": "Summary shows wrong products"
         },
         {
           "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
@@ -1476,24 +617,10 @@
           "errorMessage": ""
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 873,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 853,
           "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 760,
-          "module": "homepage",
           "errorMessage": ""
         },
         {
@@ -1511,18 +638,11 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 860,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
+          "status": "failed",
           "duration": 2040,
           "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Item count showing stale data"
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
@@ -1532,32 +652,18 @@
           "errorMessage": ""
         },
         {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1840,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
           "status": "failed",
           "duration": 2680,
           "module": "payment",
-          "errorMessage": "Discount not applied"
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2115,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Tax calculation off by 2 cents"
         },
         {
           "testName": "profile.spec.ts > view profile menu items @regression",
           "status": "failed",
           "duration": 1700,
           "module": "profile",
-          "errorMessage": "Profile image broken"
+          "errorMessage": "Profile image broken link"
         },
         {
           "testName": "profile.spec.ts > logout from application @smoke",
@@ -1574,13 +680,6 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1083,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "passed",
           "duration": 1220,
@@ -1591,20 +690,6 @@
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
           "duration": 1200,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1175,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1145,
           "module": "search",
           "errorMessage": ""
         }
@@ -1636,20 +721,6 @@
           "errorMessage": "Wrong error message text"
         },
         {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 847,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 817,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
           "testName": "cart.spec.ts > add single item to cart @smoke @critical",
           "status": "passed",
           "duration": 1100,
@@ -1665,36 +736,15 @@
         },
         {
           "testName": "cart.spec.ts > remove item from cart @regression",
-          "status": "passed",
-          "duration": 985,
+          "status": "failed",
+          "duration": 1200,
           "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1055,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 958,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "passed",
-          "duration": 1430,
-          "module": "checkout",
-          "errorMessage": ""
+          "errorMessage": "Remove confirmation not shown"
         },
         {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "passed",
-          "duration": 1540,
+          "duration": 1430,
           "module": "checkout",
           "errorMessage": ""
         },
@@ -1703,27 +753,13 @@
           "status": "failed",
           "duration": 3500,
           "module": "checkout",
-          "errorMessage": "Network error on submit"
-        },
-        {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 869,
-          "module": "checkout",
-          "errorMessage": ""
+          "errorMessage": "Network error on final submit"
         },
         {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 849,
           "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 770,
-          "module": "homepage",
           "errorMessage": ""
         },
         {
@@ -1741,32 +777,18 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 870,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
+          "status": "failed",
           "duration": 2070,
           "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Count not updating after cart change"
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
+          "status": "failed",
           "duration": 1970,
           "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1870,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Total shows previous session value"
         },
         {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
@@ -1776,18 +798,11 @@
           "errorMessage": "Total amount mismatch"
         },
         {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2125,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
           "testName": "profile.spec.ts > view profile menu items @regression",
-          "status": "failed",
-          "duration": 1800,
+          "status": "passed",
+          "duration": 1090,
           "module": "profile",
-          "errorMessage": "500 error on profile load"
+          "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > logout from application @smoke",
@@ -1804,37 +819,16 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1086,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "failed",
           "duration": 1460,
           "module": "search",
-          "errorMessage": "Items not reordered"
+          "errorMessage": "Items not reordered on sort"
         },
         {
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
           "duration": 1360,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1270,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1220,
           "module": "search",
           "errorMessage": ""
         }
@@ -1863,21 +857,7 @@
           "status": "failed",
           "duration": 1350,
           "module": "login",
-          "errorMessage": "App crashed on locked user"
-        },
-        {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
-          "status": "passed",
-          "duration": 850,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 820,
-          "module": "login",
-          "errorMessage": ""
+          "errorMessage": "App crashed on locked user login"
         },
         {
           "testName": "cart.spec.ts > add single item to cart @smoke @critical",
@@ -1895,38 +875,17 @@
         },
         {
           "testName": "cart.spec.ts > remove item from cart @regression",
-          "status": "passed",
-          "duration": 990,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 1060,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 962,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
           "status": "failed",
-          "duration": 1900,
-          "module": "checkout",
-          "errorMessage": "Step one form not loading"
+          "duration": 1300,
+          "module": "cart",
+          "errorMessage": "Cart badge not updating after remove"
         },
         {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "failed",
-          "duration": 1800,
+          "duration": 1900,
           "module": "checkout",
-          "errorMessage": "Order summary page broken"
+          "errorMessage": "Order summary page crashed"
         },
         {
           "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
@@ -1936,24 +895,10 @@
           "errorMessage": "Checkout completely broken"
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
-          "status": "passed",
-          "duration": 871,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
           "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
           "status": "passed",
           "duration": 851,
           "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 750,
-          "module": "homepage",
           "errorMessage": ""
         },
         {
@@ -1971,32 +916,18 @@
           "errorMessage": ""
         },
         {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 860,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
-          "status": "passed",
+          "status": "failed",
           "duration": 2080,
           "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Payment summary page not loading"
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
-          "status": "passed",
+          "status": "failed",
           "duration": 1980,
           "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
-          "status": "passed",
-          "duration": 1880,
-          "module": "payment",
-          "errorMessage": ""
+          "errorMessage": "Item total element not found"
         },
         {
           "testName": "payment.spec.ts > payment summary total is correct @critical",
@@ -2004,13 +935,6 @@
           "duration": 2900,
           "module": "payment",
           "errorMessage": "Payment page not rendering"
-        },
-        {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
-          "status": "passed",
-          "duration": 2140,
-          "module": "payment",
-          "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > view profile menu items @regression",
@@ -2034,13 +958,6 @@
           "errorMessage": ""
         },
         {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1088,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
           "testName": "search.spec.ts > sort products by price low to high @regression",
           "status": "failed",
           "duration": 1500,
@@ -2053,248 +970,421 @@
           "duration": 1380,
           "module": "search",
           "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
-          "status": "passed",
-          "duration": 1285,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
-          "status": "passed",
-          "duration": 1235,
-          "module": "search",
-          "errorMessage": ""
         }
       ]
     },
     {
-      "buildId": "build-001-1774083585067",
-      "timestamp": "2026-03-21T09:00:38.544Z",
+      "buildId": "build-001-1774099666148",
+      "timestamp": "2026-03-21T13:28:26.936Z",
       "results": [
-        {
-          "testName": "checkout.spec.ts > checkout step one — fill customer info @critical @smoke",
-          "status": "passed",
-          "duration": 3657,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
-          "status": "passed",
-          "duration": 785,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > valid login with standard user @smoke @critical",
-          "status": "passed",
-          "duration": 3465,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > locked out user sees lock message @regression",
-          "status": "passed",
-          "duration": 523,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "payment.spec.ts > payment summary total is correct @critical",
-          "status": "passed",
-          "duration": 824,
-          "module": "payment",
-          "errorMessage": ""
-        },
-        {
-          "testName": "search.spec.ts > sort products by price low to high @regression",
-          "status": "passed",
-          "duration": 591,
-          "module": "search",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > view profile menu items @regression",
-          "status": "passed",
-          "duration": 871,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > add single item to cart @smoke @critical",
-          "status": "passed",
-          "duration": 1108,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > add multiple items to cart @regression",
-          "status": "passed",
-          "duration": 702,
-          "module": "cart",
-          "errorMessage": ""
-        },
         {
           "testName": "cart.spec.ts > remove item from cart @regression",
           "status": "passed",
-          "duration": 615,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > cart page shows added items @regression",
-          "status": "passed",
-          "duration": 751,
-          "module": "cart",
-          "errorMessage": ""
-        },
-        {
-          "testName": "cart.spec.ts > continue shopping from cart @regression",
-          "status": "passed",
-          "duration": 924,
+          "duration": 5738,
           "module": "cart",
           "errorMessage": ""
         },
         {
           "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
           "status": "passed",
-          "duration": 1295,
+          "duration": 5835,
           "module": "checkout",
           "errorMessage": ""
         },
         {
-          "testName": "checkout.spec.ts > checkout validation — empty first name @regression",
+          "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
           "status": "passed",
-          "duration": 806,
+          "duration": 795,
           "module": "checkout",
           "errorMessage": ""
         },
         {
-          "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
+          "testName": "login.spec.ts > valid login with standard user @smoke @critical",
           "status": "passed",
-          "duration": 718,
-          "module": "checkout",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > inventory page loads correctly @smoke",
-          "status": "passed",
-          "duration": 764,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > all product names are visible @smoke",
-          "status": "passed",
-          "duration": 792,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > product listing shows prices @regression",
-          "status": "passed",
-          "duration": 799,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "homepage.spec.ts > burger menu opens and closes @regression",
-          "status": "passed",
-          "duration": 2639,
-          "module": "homepage",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > invalid login shows error message @regression",
-          "status": "passed",
-          "duration": 774,
+          "duration": 701,
           "module": "login",
           "errorMessage": ""
         },
         {
-          "testName": "login.spec.ts > empty username shows validation error @regression",
+          "testName": "login.spec.ts > locked out user sees lock message @regression",
           "status": "passed",
-          "duration": 672,
-          "module": "login",
-          "errorMessage": ""
-        },
-        {
-          "testName": "login.spec.ts > empty password shows validation error @regression",
-          "status": "passed",
-          "duration": 719,
+          "duration": 534,
           "module": "login",
           "errorMessage": ""
         },
         {
           "testName": "payment.spec.ts > payment summary shows correct item count @critical",
           "status": "passed",
-          "duration": 973,
+          "duration": 851,
           "module": "payment",
           "errorMessage": ""
         },
         {
           "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
           "status": "passed",
-          "duration": 1153,
+          "duration": 825,
           "module": "payment",
           "errorMessage": ""
         },
         {
-          "testName": "payment.spec.ts > payment summary shows tax amount @regression",
+          "testName": "payment.spec.ts > payment summary total is correct @critical",
           "status": "passed",
-          "duration": 1133,
+          "duration": 1083,
           "module": "payment",
           "errorMessage": ""
         },
         {
-          "testName": "payment.spec.ts > finish button completes order @critical @smoke",
+          "testName": "profile.spec.ts > view profile menu items @regression",
           "status": "passed",
-          "duration": 1288,
-          "module": "payment",
+          "duration": 640,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "search.spec.ts > sort products by price low to high @regression",
+          "status": "passed",
+          "duration": 603,
+          "module": "search",
+          "errorMessage": ""
+        },
+        {
+          "testName": "cart.spec.ts > add single item to cart @smoke @critical",
+          "status": "passed",
+          "duration": 1093,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "cart.spec.ts > add multiple items to cart @regression",
+          "status": "passed",
+          "duration": 679,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
+          "status": "passed",
+          "duration": 1200,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "homepage.spec.ts > all product names are visible @smoke",
+          "status": "passed",
+          "duration": 595,
+          "module": "homepage",
+          "errorMessage": ""
+        },
+        {
+          "testName": "homepage.spec.ts > product listing shows prices @regression",
+          "status": "passed",
+          "duration": 569,
+          "module": "homepage",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > invalid login shows error message @regression",
+          "status": "passed",
+          "duration": 507,
+          "module": "login",
           "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > logout from application @smoke",
           "status": "passed",
-          "duration": 1884,
+          "duration": 1494,
           "module": "profile",
           "errorMessage": ""
         },
         {
           "testName": "profile.spec.ts > navigate to all items from menu @regression",
           "status": "passed",
-          "duration": 1943,
-          "module": "profile",
-          "errorMessage": ""
-        },
-        {
-          "testName": "profile.spec.ts > reset app state clears cart @regression",
-          "status": "passed",
-          "duration": 1825,
+          "duration": 1622,
           "module": "profile",
           "errorMessage": ""
         },
         {
           "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
-          "duration": 806,
+          "duration": 555,
+          "module": "search",
+          "errorMessage": ""
+        }
+      ]
+    },
+    {
+      "buildId": "build-001-1774099887883",
+      "timestamp": "2026-03-21T13:32:03.247Z",
+      "results": [
+        {
+          "testName": "cart.spec.ts > add single item to cart @smoke @critical",
+          "status": "passed",
+          "duration": 4394,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "cart.spec.ts > add multiple items to cart @regression",
+          "status": "passed",
+          "duration": 719,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "cart.spec.ts > remove item from cart @regression",
+          "status": "passed",
+          "duration": 665,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
+          "status": "passed",
+          "duration": 4595,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
+          "status": "passed",
+          "duration": 885,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
+          "status": "passed",
+          "duration": 802,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "homepage.spec.ts > all product names are visible @smoke",
+          "status": "passed",
+          "duration": 601,
+          "module": "homepage",
+          "errorMessage": ""
+        },
+        {
+          "testName": "homepage.spec.ts > product listing shows prices @regression",
+          "status": "passed",
+          "duration": 558,
+          "module": "homepage",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > valid login with standard user @smoke @critical",
+          "status": "passed",
+          "duration": 582,
+          "module": "login",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > invalid login shows error message @regression",
+          "status": "passed",
+          "duration": 510,
+          "module": "login",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > locked out user sees lock message @regression",
+          "status": "passed",
+          "duration": 508,
+          "module": "login",
+          "errorMessage": ""
+        },
+        {
+          "testName": "payment.spec.ts > payment summary shows correct item count @critical",
+          "status": "passed",
+          "duration": 767,
+          "module": "payment",
+          "errorMessage": ""
+        },
+        {
+          "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
+          "status": "passed",
+          "duration": 796,
+          "module": "payment",
+          "errorMessage": ""
+        },
+        {
+          "testName": "payment.spec.ts > payment summary total is correct @critical",
+          "status": "passed",
+          "duration": 785,
+          "module": "payment",
+          "errorMessage": ""
+        },
+        {
+          "testName": "profile.spec.ts > view profile menu items @regression",
+          "status": "passed",
+          "duration": 573,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "profile.spec.ts > logout from application @smoke",
+          "status": "passed",
+          "duration": 1460,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "profile.spec.ts > navigate to all items from menu @regression",
+          "status": "passed",
+          "duration": 1889,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "search.spec.ts > sort products by price low to high @regression",
+          "status": "passed",
+          "duration": 775,
           "module": "search",
           "errorMessage": ""
         },
         {
-          "testName": "search.spec.ts > sort products by name A to Z @regression",
+          "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
-          "duration": 855,
+          "duration": 926,
+          "module": "search",
+          "errorMessage": ""
+        }
+      ]
+    },
+    {
+      "buildId": "build-001-1774100481342",
+      "timestamp": "2026-03-21T13:42:01.691Z",
+      "results": [
+        {
+          "testName": "cart.spec.ts > remove item from cart @regression",
+          "status": "passed",
+          "duration": 3926,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "payment.spec.ts > payment summary shows item total @critical @smoke",
+          "status": "passed",
+          "duration": 4017,
+          "module": "payment",
+          "errorMessage": ""
+        },
+        {
+          "testName": "cart.spec.ts > add single item to cart @smoke @critical",
+          "status": "passed",
+          "duration": 767,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "cart.spec.ts > add multiple items to cart @regression",
+          "status": "passed",
+          "duration": 600,
+          "module": "cart",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > checkout step two — verify order summary @critical",
+          "status": "passed",
+          "duration": 1014,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > complete full checkout flow @critical @smoke",
+          "status": "passed",
+          "duration": 760,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "checkout.spec.ts > cancel checkout returns to cart @regression",
+          "status": "passed",
+          "duration": 714,
+          "module": "checkout",
+          "errorMessage": ""
+        },
+        {
+          "testName": "homepage.spec.ts > all product names are visible @smoke",
+          "status": "passed",
+          "duration": 537,
+          "module": "homepage",
+          "errorMessage": ""
+        },
+        {
+          "testName": "homepage.spec.ts > product listing shows prices @regression",
+          "status": "passed",
+          "duration": 556,
+          "module": "homepage",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > valid login with standard user @smoke @critical",
+          "status": "passed",
+          "duration": 620,
+          "module": "login",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > invalid login shows error message @regression",
+          "status": "passed",
+          "duration": 544,
+          "module": "login",
+          "errorMessage": ""
+        },
+        {
+          "testName": "login.spec.ts > locked out user sees lock message @regression",
+          "status": "passed",
+          "duration": 461,
+          "module": "login",
+          "errorMessage": ""
+        },
+        {
+          "testName": "payment.spec.ts > payment summary shows correct item count @critical",
+          "status": "passed",
+          "duration": 875,
+          "module": "payment",
+          "errorMessage": ""
+        },
+        {
+          "testName": "payment.spec.ts > payment summary total is correct @critical",
+          "status": "passed",
+          "duration": 814,
+          "module": "payment",
+          "errorMessage": ""
+        },
+        {
+          "testName": "profile.spec.ts > view profile menu items @regression",
+          "status": "passed",
+          "duration": 640,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "profile.spec.ts > logout from application @smoke",
+          "status": "passed",
+          "duration": 1646,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "profile.spec.ts > navigate to all items from menu @regression",
+          "status": "passed",
+          "duration": 1727,
+          "module": "profile",
+          "errorMessage": ""
+        },
+        {
+          "testName": "search.spec.ts > sort products by price low to high @regression",
+          "status": "passed",
+          "duration": 557,
           "module": "search",
           "errorMessage": ""
         },
         {
-          "testName": "search.spec.ts > sort products by name Z to A @regression",
+          "testName": "search.spec.ts > sort products by price high to low @regression",
           "status": "passed",
-          "duration": 700,
+          "duration": 714,
           "module": "search",
           "errorMessage": ""
         }

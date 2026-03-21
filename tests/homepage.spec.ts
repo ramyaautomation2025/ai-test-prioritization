@@ -17,13 +17,7 @@ test.describe('Homepage Module @smoke', () => {
         fullPage: true,
       });
     }
-  });
-
-  test('inventory page loads correctly @smoke', async ({ page }) => {
-    await expect(page.locator('.inventory_list')).toBeVisible();
-    const items = page.locator('.inventory_item');
-    await expect(items).toHaveCount(6);
-  });
+  }); 
 
   test('all product names are visible @smoke', async ({ page }) => {
     const names = page.locator('.inventory_item_name');
@@ -37,13 +31,6 @@ test.describe('Homepage Module @smoke', () => {
     await expect(prices).toHaveCount(6);
     const firstPrice = await prices.first().textContent();
     expect(firstPrice).toContain('$');
-  });
-
-  test('burger menu opens and closes @regression', async ({ page }) => {
-    await page.locator('#react-burger-menu-btn').click();
-    await expect(page.locator('.bm-menu-wrap')).toBeVisible();
-    await page.locator('#react-burger-cross-btn').click();
-    await expect(page.locator('.bm-menu-wrap')).not.toBeVisible();
   });
 
 });

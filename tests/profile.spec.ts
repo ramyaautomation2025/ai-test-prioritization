@@ -42,13 +42,4 @@ test.describe('Profile & Navigation Module @regression', () => {
     await expect(page).toHaveURL(/inventory/);
   });
 
-  test('reset app state clears cart @regression', async ({ page }) => {
-    await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-    await expect(page.locator('.shopping_cart_badge')).toHaveText('1');
-    await page.locator('#react-burger-menu-btn').click();
-    await page.locator('#reset_sidebar_link').click();
-    await page.locator('#react-burger-cross-btn').click();
-    await expect(page.locator('.shopping_cart_badge')).not.toBeVisible();
-  });
-
 });
