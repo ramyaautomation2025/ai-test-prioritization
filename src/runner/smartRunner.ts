@@ -76,6 +76,48 @@ function ensureOutputFolders(): void {
   }
 }
 
+/**
+ * Clears all group report folders at the start of every run.
+ * Prevents stale results from previous builds appearing
+ * in groups that had no tests in the current run.
+ *
+ * Only clears group subfolders (groupa, groupb, groupc)
+ * NOT the priority-dashboard.html which is regenerated separately.
+ */
+function clearReportsFolder(): void {
+  console.log(
+    `[${new Date().toISOString()}] 🧹 Clearing stale group reports...`
+  );
+
+  const groupFolders = [
+    path.join(process.cwd(), 'reports', 'groupa'),
+    path.join(process.cwd(), 'reports', 'groupb'),
+    path.join(process.cwd(), 'reports', 'groupc'),
+  ];
+
+  for (const folder of groupFolders) {
+    if (fs.existsSync(folder)) {
+      fs.rmSync(folder, { recursive: true, force: true });
+      console.log(
+        `[${new Date().toISOString()}] 🗑️  Cleared: ${path.basename(folder)}/`
+      );
+    }
+  }
+
+  // Also clear the combined index so it regenerates fresh
+  const combinedIndex = path.join(process.cwd(), 'reports', 'index.html');
+  if (fs.existsSync(combinedIndex)) {
+    fs.rmSync(combinedIndex);
+    console.log(
+      `[${new Date().toISOString()}] 🗑️  Cleared: reports/index.html`
+    );
+  }
+
+  console.log(
+    `[${new Date().toISOString()}] ✅ Reports folder ready for fresh run`
+  );
+}
+
 // ── Helper: Write dynamic Playwright config for each group ────────────────────
 
 /**
@@ -132,10 +174,11 @@ function ensureOutputFolders(): void {
     `});`,
   ].join('\n');
 
-  const configPath = path.join(
-    process.cwd(),
-    `playwright.${safeGroupName}.config.js`
-  );
+  const buildNum   = process.env.BUILD_NUMBER || Date.now();
+const configPath = path.join(
+  process.cwd(),
+  `playwright.${safeGroupName}.${buildNum}.config.js`
+);
 
   fs.writeFileSync(configPath, configContent);
 
@@ -879,6 +922,7 @@ async function smartRun(): Promise<void> {
 
   printBanner('AI-DRIVEN SMART TEST RUNNER', buildNumber);
   ensureOutputFolders();
+  clearReportsFolder();
 
   // ── STEP 1: Database Connection ───────────────────────────────────
   printStep(1, '🔌 Connecting to PostgreSQL Database');
